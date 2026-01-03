@@ -1,0 +1,101 @@
+import { Municipality } from "./types";
+import {
+  defaultMunicipalBudget,
+  defaultCountyBudget,
+  largeCityMunicipalBudget,
+} from "./budgetData";
+
+// Sample Swedish municipalities with real 2024 tax rates
+// Note: These are approximate values and should be updated with official data
+export const municipalities: Municipality[] = [
+  {
+    code: "0180",
+    name: "Stockholm",
+    county: "Stockholms län",
+    municipalTaxRate: 18.36,
+    countyTaxRate: 12.08,
+    municipalBudget: largeCityMunicipalBudget,
+    countyBudget: defaultCountyBudget,
+  },
+  {
+    code: "1480",
+    name: "Göteborg",
+    county: "Västra Götalands län",
+    municipalTaxRate: 19.42,
+    countyTaxRate: 11.48,
+    municipalBudget: largeCityMunicipalBudget,
+    countyBudget: defaultCountyBudget,
+  },
+  {
+    code: "1280",
+    name: "Malmö",
+    county: "Skåne län",
+    municipalTaxRate: 20.96,
+    countyTaxRate: 11.52,
+    municipalBudget: largeCityMunicipalBudget,
+    countyBudget: defaultCountyBudget,
+  },
+  {
+    code: "0380",
+    name: "Uppsala",
+    county: "Uppsala län",
+    municipalTaxRate: 20.68,
+    countyTaxRate: 11.71,
+    municipalBudget: defaultMunicipalBudget,
+    countyBudget: defaultCountyBudget,
+  },
+  {
+    code: "1980",
+    name: "Umeå",
+    county: "Västerbottens län",
+    municipalTaxRate: 21.87,
+    countyTaxRate: 11.09,
+    municipalBudget: defaultMunicipalBudget,
+    countyBudget: defaultCountyBudget,
+  },
+  {
+    code: "0580",
+    name: "Linköping",
+    county: "Östergötlands län",
+    municipalTaxRate: 21.62,
+    countyTaxRate: 11.43,
+    municipalBudget: defaultMunicipalBudget,
+    countyBudget: defaultCountyBudget,
+  },
+  {
+    code: "1281",
+    name: "Lund",
+    county: "Skåne län",
+    municipalTaxRate: 19.76,
+    countyTaxRate: 11.52,
+    municipalBudget: defaultMunicipalBudget,
+    countyBudget: defaultCountyBudget,
+  },
+  {
+    code: "0481",
+    name: "Örebro",
+    county: "Örebro län",
+    municipalTaxRate: 20.91,
+    countyTaxRate: 11.35,
+    municipalBudget: defaultMunicipalBudget,
+    countyBudget: defaultCountyBudget,
+  },
+  {
+    code: "2084",
+    name: "Kiruna",
+    county: "Norrbottens län",
+    municipalTaxRate: 20.98,
+    countyTaxRate: 11.71,
+    municipalBudget: defaultMunicipalBudget,
+    countyBudget: defaultCountyBudget,
+  },
+  {
+    code: "0980",
+    name: "Gotland",
+    county: "Gotlands län",
+    municipalTaxRate: 18.95,
+    countyTaxRate: 0, // Gotland has no county tax as it's both municipality and county
+    municipalBudget: defaultMunicipalBudget,
+    countyBudget: [],
+  },
+].sort((a, b) => a.name.localeCompare(b.name, "sv"));
