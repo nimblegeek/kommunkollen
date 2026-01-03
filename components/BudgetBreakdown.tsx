@@ -3,6 +3,8 @@
 import { Municipality, TaxCalculation } from "@/lib/types";
 import { formatCurrency } from "@/lib/taxCalculations";
 import { useState } from "react";
+import BudgetChart from "./BudgetChart";
+import BudgetBarChart from "./BudgetBarChart";
 
 interface BudgetBreakdownProps {
   municipality: Municipality;
@@ -14,6 +16,7 @@ export default function BudgetBreakdown({
   calculation,
 }: BudgetBreakdownProps) {
   const [activeTab, setActiveTab] = useState<"municipal" | "county">("municipal");
+  const [chartType, setChartType] = useState<"pie" | "bar">("pie");
 
   const municipalBudget = municipality.municipalBudget || [];
   const countyBudget = municipality.countyBudget || [];
@@ -63,6 +66,52 @@ export default function BudgetBreakdown({
           )}
         </div>
 
+        {/* Chart Visualization */}
+        {currentBudget.length > 0 && (
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-3">
+              <h4 className="text-sm font-semibold text-[#24292f] dark:text-[#e6edf3]">
+                Visualisering
+              </h4>
+              <div className="flex gap-1 p-1 bg-[#f6f8fa] dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] rounded-md">
+                <button
+                  onClick={() => setChartType("pie")}
+                  className={`px-3 py-1 text-xs font-medium rounded transition-colors ${
+                    chartType === "pie"
+                      ? "bg-white dark:bg-[#30363d] text-[#24292f] dark:text-[#e6edf3] shadow-sm"
+                      : "text-[#57606a] dark:text-[#8b949e] hover:text-[#24292f] dark:hover:text-[#e6edf3]"
+                  }`}
+                >
+                  <svg className="w-4 h-4 inline-block mr-1" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 0 0 6.5 6.5V1.5A6.5 6.5 0 0 0 1.5 8Z"/>
+                  </svg>
+                  Cirkel
+                </button>
+                <button
+                  onClick={() => setChartType("bar")}
+                  className={`px-3 py-1 text-xs font-medium rounded transition-colors ${
+                    chartType === "bar"
+                      ? "bg-white dark:bg-[#30363d] text-[#24292f] dark:text-[#e6edf3] shadow-sm"
+                      : "text-[#57606a] dark:text-[#8b949e] hover:text-[#24292f] dark:hover:text-[#e6edf3]"
+                  }`}
+                >
+                  <svg className="w-4 h-4 inline-block mr-1" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M1.5 14h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1Zm1-3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5v-3Zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5v-6Zm4-3a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-9Z"/>
+                  </svg>
+                  Staplar
+                </button>
+              </div>
+            </div>
+            <div className="p-4 bg-[#f6f8fa] dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] rounded-md">
+              {chartType === "pie" ? (
+                <BudgetChart budget={currentBudget} totalAmount={currentTax} />
+              ) : (
+                <BudgetBarChart budget={currentBudget} totalAmount={currentTax} />
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Budget breakdown */}
         <div className="space-y-4">
           {currentBudget.length === 0 ? (
@@ -70,7 +119,11 @@ export default function BudgetBreakdown({
               Ingen budgetdata tillgänglig för denna kommun
             </p>
           ) : (
-            currentBudget.map((category, index) => {
+            <>
+              <h4 className="text-sm font-semibold text-[#24292f] dark:text-[#e6edf3] mb-3">
+                Detaljerad fördelning
+              </h4>
+              {currentBudget.map((category, index) => {
               const amount = (currentTax * category.percentage) / 100;
               return (
                 <div key={index} className="space-y-2">
@@ -105,7 +158,8 @@ export default function BudgetBreakdown({
                   </div>
                 </div>
               );
-            })
+            })}
+            </>
           )}
         </div>
 
